@@ -1,0 +1,283 @@
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+.container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(42, 42, 42);
+}
+
+.zone {
+    background-color: #313131;
+    border-radius: 1vw;
+}
+
+.font-style {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1vw;
+}
+
+.btn-style {
+    height: 2.5vw;
+    margin: 0 auto;
+    background-color:transparent;
+    border: 1px solid #4aa4c1;
+    border-radius: 1.25vw;
+    color: #fff;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 1vw;
+}
+
+.btn-style:hover {
+    cursor: pointer;
+    background-color: #53cbf1;
+}
+/*** Styles for welcome window ***/
+.welcome-window {
+    width: 40vw;
+    height: 15vw;
+    grid-column: 1 / span 2;
+    grid-row: 1;
+    margin: 0 auto;
+}
+
+.welcome-window h1 {
+    width: 100%;
+    height: 6vw;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.8vw;
+    color: #fff;
+}
+
+.welcome-btns {
+    display: flex;
+    justify-content: space-around;
+}
+
+.welcome-btns button {
+    width: 40%;
+}
+/*** Styles for color table ***/
+.content {
+    display: none;
+    width: 50vw;
+    height: 28vw;
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0 auto;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    height: 5vw;
+}
+
+.header h1 {
+    width: 75%;
+    margin-left: auto;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.8vw;
+}
+
+.sys-btn {
+    display: flex;
+    justify-content: space-around;
+    width: 15%;
+    color: #777777;
+    font-size: 1.4vw;
+}
+
+.sys-btn p:hover {
+    cursor: pointer;
+    color: #4aa4c1;
+}
+
+.color-table {
+    background-color: #424242;
+    width: 100%;
+    height: 18vw;
+}
+
+.color-table-header {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7vw;
+    color: #fff;
+}
+
+.table-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15% 15% 15% auto 15% 15%;
+    align-items: center;
+    text-align: center;
+}
+
+.table-row:hover {
+    background-color: #545454;
+    background-image: linear-gradient(#545454, #333333);
+}
+
+#table-content {
+    width: 100%;
+    height: 80%;
+    overflow-y: scroll;
+}
+
+#table-content::-webkit-scrollbar {
+    width: 0.5vw;
+}
+
+#table-content::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 4px grey; 
+    border-radius: 0.25vw;
+}
+
+#table-content::-webkit-scrollbar-thumb {
+    background: rgb(106, 112, 73); 
+    border-radius: 0.25vw;
+}
+
+#table-content::-webkit-scrollbar-thumb:hover {
+    background: #c94c4c;
+}
+
+.table-entity {
+    height: 3vw;
+    color: #9f9f9f;
+}
+
+.selected {
+    opacity: 0.5;
+}
+
+.color-row {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.color-row-content {
+    width: 2vw;
+    height: 2vw;
+}
+
+.change-row:hover {
+    color: #4fb0ce;
+    cursor: pointer;
+}
+
+.delete-row:hover {
+    color: #c94c4c;
+    cursor: pointer;
+}
+
+.editor-table-footer {
+    width: 100%;
+    height: 5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#add-color {
+    width: 30%;
+}
+
+/*** styles for add-color-form element ***/
+
+.add-color-form {
+    width: 30vw;
+    display: none;
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0 auto;
+}
+
+.form-header {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.form-item {
+    width: 80%;
+    height: 3vw;
+    margin: 1vw auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #9f9f9f;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.1vw;
+}
+
+.form-field {
+    width: 60%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #5e5e5e;
+    background-color: #424242;
+    border-radius: 7px;
+}
+
+.form-field input,
+.form-field select {
+    width: 90%;
+    height: 90%;
+    background-color: transparent;
+    border: none;
+    color: #9f9f9f;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.1vw;
+}
+
+.form-item button {
+    width: 60%;
+}
+
+#change-color-form-btn {
+    display: none;
+}
+
+/***** styles for screens with sizes less than 767px *****/
+@media  (max-width: 767px) {
+    .container {
+        grid-template-columns: 100%;
+        grid-template-rows: 50vh 50vh;
+    }
+
+    .welcome-window {
+        grid-column: 1;
+        grid-row: 1;
+        width: 80%;
+        height: 15vw;
+    }
+
+    .content {
+        grid-column: 1;
+        grid-row: 1;
+        width: 80%;
+    }
+
+    .add-color-form {
+        grid-column: 1;
+        grid-row: 2;
+        width: 50%;
+    }
+}

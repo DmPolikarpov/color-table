@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Редактор табличных данных</title>
+	<link rel="stylesheet" type="text/css" href="./style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+	<!-- common container (the whole page) -->
+    <div class="container">
+		<div class="welcome-window zone">
+			<h1>Добро пожаловать</h1>
+			<div class="welcome-btns">
+				<button id="open-svd-tbl" class="btn-style">Сохраненная таблица</button>
+				<button id="new-tbl" class="btn-style">Новая таблица</button>
+			</div>
+		</div>
+		<!-- color table -->
+        <div class="content zone">
+			<!-- title with close and save buttons -->
+			<div class='header'>
+				<h1>Таблица цветов</h1>
+				<div class="sys-btn">
+					<p id="open-btn">&#10054;</p>
+					<p id="save-btn" class="fa">&#xf0c7;</p>
+					<p id="close-btn">&times;</p>
+				</div>
+			</div>
+			<!-- table body -->
+			<div class="color-table">
+				<div class="color-table-header table-row">
+					<h1>Цвет</h1>
+					<h1>Название</h1>
+					<h1>Тип</h1>
+					<h1>Код</h1>
+					<h1>Изменить</h1>
+					<h1>Удалить</h1>
+				</div>
+				<div id="table-content"></div>
+			</div>
+			<!-- footer -->
+			<div class="editor-table-footer">
+				<button id="add-color" class="btn-style">Добавить цвет</button>
+			</div>
+		</div>
+		<!-- add color form -->
+		<div class="add-color-form zone">
+			<div class="header">
+				<h1 class="form-header">Добавление цвета</h1>
+			</div>
+			<div class="form-item">
+				<label for="txt-color-name">Название цвета</label>
+				<div class="form-field">
+					<input type="text" id="txt-color-name" placeholder="Введите название" required name="colorName">
+				</div>
+			</div>
+			<div class="form-item">
+				<label for="txt-color-name">Выберите тип</label>
+				<div class="form-field">
+					<select id="slt-color-type" name="colorType">
+						<option value="Main" selected>Main</option>
+						<option value="Primary">Primary</option>
+						<option value="Secondary">Secondary</option>
+						<option value="Base">Base</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-item">
+				<label for="color-picker">Выберите цвет</label>
+				<div class="form-field">
+					<input type="color" id="color-picker" value="#701010">
+				</div>
+			</div>
+			<div class="form-item">
+				<button id="add-color-form-btn" class="btn-style">Добавить цвет</button>
+				<button id="change-color-form-btn" class="btn-style">Изменить цвет</button>
+			</div>
+		</div>
+    </div>
+	<script src="./editor.js"></script>
+</body>
+</html>
