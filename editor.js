@@ -123,8 +123,12 @@ addColorFormButton.addEventListener("click", () => {
 //retrieves data of color table saved in the local storage
 let openData = () => {
     entityArray = [];
-    let data = JSON.parse(localStorage.getItem("colorTable"))
-    data.forEach(element => entityArray.push(element));
+    try {
+        let data = JSON.parse(localStorage.getItem("colorTable"))
+        data.forEach(element => entityArray.push(element));
+    } catch(err) {
+        alert("Ни одной сохраненной таблицы не обнаружено")
+    }
 }
 
 openBtn.addEventListener("click", () => {
