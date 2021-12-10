@@ -85,7 +85,7 @@ addColor.addEventListener("click", () => {
     addColorForm.style.display = "block";
 })
 
-//listens and processes change row events
+//listens and processes change row button click events
 let changeRow = (index) => {  
     formHeader.textContent = "Редактирование цвета";
     addColorFormButton.style.display = "none";
@@ -94,17 +94,19 @@ let changeRow = (index) => {
     colorName.value = entityArray[index].name;
     colorType.value = entityArray[index].type;
     colorCode.value = entityArray[index].code;
-    changeColorFormButton.addEventListener("click", () => {
-        entityArray[index].name = colorName.value;
-        entityArray[index].type = colorType.value;
-        entityArray[index].code = colorCode.value;
-        fillTable();
-        changeColorFormButton.style.display = "none";
-        addColorForm.style.display = "none";
-        addColorFormButton.style.display = "block";
-        resetValues();
-    })
+    addColorForm.setAttribute("row-index", index);
 }
+//listens and processes change row events
+addColorForm.addEventListener("changeData", (event) => {
+    entityArray[event.detail.index].name = event.detail.data.name;
+    entityArray[event.detail.index].type = event.detail.data.type;
+    entityArray[event.detail.index].code = event.detail.data.code;
+    fillTable();
+    changeColorFormButton.style.display = "none";
+    addColorForm.style.display = "none";
+    addColorFormButton.style.display = "block";
+    resetValues();
+})
 
 //listens and processes delete row events
 let deleteRow = (index) => {
@@ -113,11 +115,11 @@ let deleteRow = (index) => {
 }
 
 //listens and processes addColor button in the form click events
-addColorFormButton.addEventListener("click", () => {
-        setTableRow(colorName.value, colorType.value, colorCode.value);
-        fillTable();
-        addColorForm.style.display = "none";
-        resetValues();
+addColorForm.addEventListener("addData", (event) => {
+    setTableRow(event.detail.name, event.detail.type, event.detail.code);
+    fillTable();
+    addColorForm.style.display = "none";
+    resetValues();
 })
 
 //retrieves data of color table saved in the local storage
@@ -185,43 +187,3 @@ let openSavedTable = () => {
 openSavedTableBtn.addEventListener("click", () => {
     openSavedTable();
 })
-//listens start draggind events
-tableContent.addEventListener("dragstart", (event) => {
-    event.target.classList.add("selected");
-});
-//listens end dragging events
-tableContent.addEventListener("dragend", (event) => {
-    event.target.classList.remove("selected");
-});
-//takes cursor and moved element positions and returns next row
-const defineNextRow = (cursor, element) => {
-    let elementPosition = element.getBoundingClientRect();
-    let elementCenter = elementPosition.y + elementPosition.height / 2;   
-    let nextRow;
-    if (cursor < elementCenter) {
-        nextRow = element;
-    } else {
-        nextRow = element.nextElementSibling;
-    }   
-    return nextRow;
-};
-//listens and processes dragging and dropping events
-tableContent.addEventListener("dragover", (event) => {
-    event.preventDefault();  
-    let selectedRow = tableContent.querySelector(".selected");
-    const belowRow = event.target;      
-    const isMoveable = selectedRow !== belowRow &&
-    belowRow.classList.contains("table-entity");   
-    if (!isMoveable) {
-        return;
-    }  
-    let nextRow = defineNextRow(event.clientY, belowRow);   
-    if (
-        nextRow && 
-      selectedRow === nextRow.previousElementSibling ||
-      selectedRow === nextRow
-    ) {
-      return;
-    }         
-    tableContent.insertBefore(selectedRow, nextRow);
-});

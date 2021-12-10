@@ -18,67 +18,13 @@
 			</div>
 		</div>
 		<!-- color table -->
-        <div class="content zone">
-			<!-- title with close and save buttons -->
-			<div class='header'>
-				<h1>Таблица цветов</h1>
-				<div class="sys-btn">
-					<p id="open-btn">&#10054;</p>
-					<p id="save-btn" class="fa">&#xf0c7;</p>
-					<p id="close-btn">&times;</p>
-				</div>
-			</div>
-			<!-- table body -->
-			<div class="color-table">
-				<div class="color-table-header table-row">
-					<h1>Цвет</h1>
-					<h1>Название</h1>
-					<h1>Тип</h1>
-					<h1>Код</h1>
-					<h1>Изменить</h1>
-					<h1>Удалить</h1>
-				</div>
-				<div id="table-content"></div>
-			</div>
-			<!-- footer -->
-			<div class="editor-table-footer">
-				<button id="add-color" class="btn-style">Добавить цвет</button>
-			</div>
-		</div>
+		<color-table-component class="content zone"></color-table-component>
 		<!-- add color form -->
-		<div class="add-color-form zone">
-			<div class="header">
-				<h1 class="form-header">Добавление цвета</h1>
-			</div>
-			<div class="form-item">
-				<label for="txt-color-name">Название цвета</label>
-				<div class="form-field">
-					<input type="text" id="txt-color-name" placeholder="Введите название" required name="colorName">
-				</div>
-			</div>
-			<div class="form-item">
-				<label for="txt-color-name">Выберите тип</label>
-				<div class="form-field">
-					<select id="slt-color-type" name="colorType">
-						<option value="Main" selected>Main</option>
-						<option value="Primary">Primary</option>
-						<option value="Secondary">Secondary</option>
-						<option value="Base">Base</option>
-					</select>
-				</div>
-			</div>
-			<div class="form-item">
-				<label for="color-picker">Выберите цвет</label>
-				<div class="form-field">
-					<input type="color" id="color-picker" value="#701010">
-				</div>
-			</div>
-			<div class="form-item">
-				<button id="add-color-form-btn" class="btn-style">Добавить цвет</button>
-				<button id="change-color-form-btn" class="btn-style">Изменить цвет</button>
-			</div>
-		</div>
+		<add-color-form class="add-color-form zone"></add-color-form>
     </div>
+	<script src="./customElement.js"></script>
+	<script src="./colorTable.js"></script>
+	<script src="./addColorForm.js"></script>
 	<script src="./editor.js"></script>
 </body>
 </html>
