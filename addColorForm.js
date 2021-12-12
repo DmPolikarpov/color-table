@@ -1,5 +1,6 @@
-const template = document.createElement("template");
-template.innerHTML = `
+
+const formTemplate = document.createElement("template");
+formTemplate.innerHTML = `
     <style>
         .zone {
             background-color: #313131;
@@ -81,14 +82,74 @@ template.innerHTML = `
 
         .form-field input,
         .form-field select {
-            width: 90%;
-            height: 90%;
+            width: 100%;
+            height: 100%;
             background-color: transparent;
             border: none;
             color: #9f9f9f;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 1.1vw;
         }
+
+        #select-menu {
+            position: relative;
+            font-family: Arial;
+            border: 1px solid #5e5e5e;
+            background-color: #424242;
+            border-radius: 7px;
+        }
+        
+        #select-menu select {
+            display: none; 
+        }
+        
+        .fake-options div {
+            color: #9f9f9f;
+            padding: 8px 16px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .selected-item {
+            text-align: center;
+            width: 100%;
+            height: 50%;
+            color: #9f9f9f;
+            background-color: #424242;
+            border-radius: 7px;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .fake-options {
+            position: absolute;
+            border: 1px solid #5e5e5e;
+            border-top: 1px dotted #5e5e5e;
+            background-color: #424242;
+            border-bottom-right-radius: 7px;
+            border-bottom-left-radius: 7px;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fake-options div:hover, .selected-fake-item {
+            color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+
+
+
+        #slt-color-type :hover::before {
+            color: rgba(255, 255, 255, 0.6);
+            background-color: rgba(255, 255, 255, 0.2);
+          }
 
         .form-item button {
             width: 60%;
@@ -110,9 +171,10 @@ template.innerHTML = `
         </div>
         <div class="form-item">
             <label for="txt-color-name">Выберите тип</label>
-            <div class="form-field">
+            <div id="select-menu" class="form-field">
                 <select id="slt-color-type" name="colorType">
-                    <option value="Main" selected>Main</option>
+                    <option value="Main">Main</option>
+                    <option value="Main">Main</option>
                     <option value="Primary">Primary</option>
                     <option value="Secondary">Secondary</option>
                     <option value="Base">Base</option>
@@ -132,47 +194,100 @@ template.innerHTML = `
     </div>
 `
 
-class AddColorForm extends HTMLElement {
+class ColorForm extends HTMLElement {
     constructor() {
         super();
-        this.appendChild(template.content.cloneNode(true));
+
+        this.appendChild(formTemplate.content.cloneNode(true));
         this.addColorBtn = this.querySelector("#add-color-form-btn");
         this.changeColorBtn = this.querySelector("#change-color-form-btn");
+        this.formHeader = this.querySelector(".form-header");
+        this.colorName = this.querySelector("#txt-color-name");
+        this.colorType = this.querySelector("#slt-color-type");
+        this.colorCode = this.querySelector("#color-picker");
+        this.colorTable = document.querySelector(".color-table-component");
     }
-
+    //opens form window
+    openForm() {
+        this.clearContent();
+        this.style.display = "block";
+    }
+    //closes form window
+    closeForm() {
+        this.clearContent();
+        this.style.display = "none";
+    }
+    //retrieves data from the form, stores it in an object, and returns the object
     getData() {
-        let colorName = this.querySelector("#txt-color-name");
-        let colorType = this.querySelector("#slt-color-type");
-        let colorCode = this.querySelector("#color-picker");
         let data = {
-            name: colorName.value,
-            type: colorType.value,
-            code: colorCode.value,
+            name: this.colorName.value,
+            type: this.colorType.value,
+            code: this.colorCode.value,
         }
         return data;
     }
-
+    //takes data from getData(), updates entityArray of parent element and closes color form
     getColor() {
         let data = this.getData();
-        this.dispatchEvent(new CustomEvent('addData', { detail: data }));
+        const colorTableWindow = document.getElementsByClassName("content")[0];
+        colorTableWindow.addTableData(data);
+        this.closeForm();
     }
-
-    changeColor() {
+    //sets current data into color form
+    setData(index) {
+        const colorTableWindow = document.getElementsByClassName("content")[0];
+        let arr = colorTableWindow.getEntityArray();
+        this.colorName.value = arr[index].name;
+        this.colorType.value = arr[index].type;
+        this.colorCode.value = arr[index].code;
+    }
+    //changes an element of entity array and updates color table
+    changeColor(index) {
         let data = this.getData();
-        let index = this.getAttribute("row-index");
-        this.dispatchEvent(new CustomEvent('changeData', { 
-            detail: {
-                data : data,
-                index : index
-            } 
-        }));
-
+        const colorTableWindow = document.getElementsByClassName("content")[0];
+        colorTableWindow.changeArrayElement(index, data);
+        this.closeForm();
+    }
+    //deletes a table row
+    deleteRow(index) {
+        const colorTableWindow = document.getElementsByClassName("content")[0];
+        colorTableWindow.deleteRow(index);
+    }
+    //sets a title of color form
+    setTitle(title) {
+        this.formHeader.textContent = title;
+    }
+    //manages color buttons. If condition is true addColor button will appear.
+    manageColorButtons(condition) {
+        if (condition) {
+            this.addColorBtn.style.display = "block";
+            this.changeColorBtn.style.display = "none";
+        } else {
+            this.changeColorBtn.style.display = "block"; 
+            this.addColorBtn.style.display = "none";
+        }
+    }
+    //manages change color button
+    manageAddColorButton(condition) {
+        condition ? 
+        this.addColorBtn.style.display = "block" : 
+        this.addColorBtn.style.display = "none";
+    }
+    //clears content of the form
+    clearContent() {
+        this.colorName.value = "";
+        this.colorType.value = "Main";
+        this.colorCode.value = "#701010";
     }
 
     connectedCallback() {
         this.addColorBtn.addEventListener("click", () => this.getColor());
-        this.changeColorBtn.addEventListener("click", () => this.changeColor());
+        this.changeColorBtn.addEventListener("click", () => {
+            let index = this.getAttribute("row-index");
+            this.changeColor(index);
+        });
+       
     }
 }
 
-window.customElements.define("add-color-form", AddColorForm);
+window.customElements.define("add-color-form", ColorForm);

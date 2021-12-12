@@ -67,29 +67,3 @@ html, body {
     width: 40%;
 }
 
-/***** styles for screens with sizes less than 767px *****/
-@media  (max-width: 767px) {
-    .container {
-        grid-template-columns: 100%;
-        grid-template-rows: 50vh 50vh;
-    }
-
-    .welcome-window {
-        grid-column: 1;
-        grid-row: 1;
-        width: 80%;
-        height: 15vw;
-    }
-
-    .content {
-        grid-column: 1;
-        grid-row: 1;
-        width: 80%;
-    }
-
-    .add-color-form {
-        grid-column: 1;
-        grid-row: 2;
-        width: 50%;
-    }
-}

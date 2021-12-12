@@ -1,5 +1,6 @@
-const tableTemplate = document.createElement("template");
-tableTemplate.innerHTML = `
+
+const template = document.createElement("template");
+template.innerHTML = `
     <style>
         .zone {
             background-color: #313131;
@@ -187,14 +188,52 @@ tableTemplate.innerHTML = `
 `
 
 class ColorTable extends HTMLElement {
+    
+    content = []; 
 
     constructor() {
         super();
 
-        this.appendChild(tableTemplate.content.cloneNode(true));
+        this.appendChild(template.content.cloneNode(true));
         this.tableContent = this.querySelector("#table-content");
+        this.clsBtn = this.querySelector("#close-btn");
+        this.saveBtn = this.querySelector("#save-btn");
+        this.openBtn = this.querySelector("#open-btn");
     }
-
+    //opens color table
+    openTable() {
+        this.tableContent.innerHTML = "";
+        this.style.display = "block";
+    }
+    //retrieves data of color table saved in the local storage
+    openData() {
+        this.content = [];
+        try {
+            let data = JSON.parse(localStorage.getItem("colorTable"))
+            data.forEach(element => this.content.push(element));
+        } catch(err) {
+            alert("Ни одной сохраненной таблицы не обнаружено")
+        }
+    }
+    //opens saved table
+    openSavedTable() {
+        this.openTable();
+        this.openData();
+        this.fillTable(this.content);
+    }
+    //closes color table
+    closeTable() {
+        this.clearArray();
+        this.style.display = "none";
+    }
+    //fills the table with elements of entityArray
+    fillTable(arr) {
+        this.content = arr;
+        this.tableContent.innerHTML = "";
+        for (let i = 0; i < arr.length; i++) {
+            this.tableContent.innerHTML += '<table-row-content class="table-row table-entity" draggable="true" rowId="' + i + '" name="'+arr[i].name+'" type="'+arr[i].type+'" code="'+arr[i].code+'"></table-row-content>';
+        }
+    }
     //takes cursor and moved element positions and returns next row
     defineNextRow(cursor, element) {
         let elementPosition = element.getBoundingClientRect();
@@ -208,7 +247,50 @@ class ColorTable extends HTMLElement {
         return nextRow;
     };
 
+    //saves data from color table to the local storage
+    saveData() {
+        try {
+            localStorage.setItem("colorTable", JSON.stringify(this.content));
+            localStorage.getItem("colorTable") ? alert("Наконец-таки... Данные сохранены!") : alert("Упсс... Что-то не так... Попробуй еще раз. Может повезет.");
+        } catch(err) {
+            alert("Упсс... Что-то не так... Попробуй еще раз. Может повезет.")
+        }
+
+    }
+    //adds color table with new data
+    addTableData(data) {
+        this.content.push(data);
+        this.fillTable(this.content)
+    }
+    //returns entity array
+    getEntityArray() {
+        return this.content;
+    }
+    //changes element of antity array
+    changeArrayElement(index, data) {
+        this.content[index].name = data.name;
+        this.content[index].type = data.type;
+        this.content[index].code = data.code;
+        this.fillTable(this.content)
+    }
+    //removes an element of the array
+    deleteRow(index) {
+        this.content.splice(index, 1);
+        this.fillTable(this.content)
+    }
+    //clears array
+    clearArray() {
+        this.content = [];
+    }
     connectedCallback() {
+        //listens and processes save button click events
+        this.saveBtn.addEventListener("click", () => this.saveData());
+        this.openBtn.addEventListener("click", () => {
+            if (confirm("Вы уверены? Все несохраненные данные будут удалены.")) {
+                this.openData();
+                this.fillTable(this.content);
+            }
+        })
         //listens start draggind events
         this.tableContent.addEventListener("dragstart", (event) => {
             event.target.classList.add("selected");
@@ -238,6 +320,9 @@ class ColorTable extends HTMLElement {
             this.tableContent.insertBefore(selectedRow, nextRow);
         });
     }
+    
+
+
 }
 
 window.customElements.define("color-table-component", ColorTable);
